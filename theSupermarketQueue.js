@@ -19,24 +19,29 @@ function queueTime(customers, n) {
     tillsArray[i] = customers[i];
   }
 
+  // Continue Shopping
   while (!doneShopping) {
-    tillsArray.forEach((custTimeLeft, till) => {
+    let newTillsArray = tillsArray.map((custTimeLeft, idx, arr) => {
       custTimeLeft--;
 
       if (custTimeLeft === 0) {
         n++;
         if (customers[n - 1] !== undefined) {
-          console.log(till, tillsArray[till]);
-          tillsArray[till] = customers[n - 1];
+          return (custTimeLeft = customers[n - 1]);
         } else {
-          tillsArray.splice(till, 1);
+          return arr.splice(idx, 1);
         }
       }
-
-      timePassed++;
-
-      if (tillsArray.length === 0) doneShopping = true;
     });
+
+    timePassed++;
+
+    if (newTillsArray === 0) {
+      doneShopping = true;
+    } else {
+      tillsArray = [];
+      tillsArray = [...newTillsArray];
+    }
   }
 
   return timePassed;
